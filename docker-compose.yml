@@ -1,0 +1,29 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    environment:
+      DATABASE_HOST: localhost
+    depends_on:
+      - db
+    volumes:
+      - ./:/go/src/app
+    ports:
+      - 8080:8080
+    command:
+      go run main.go
+    tty:
+      true
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: sample
+    hostname: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./datavol:/var/lib/mysql
